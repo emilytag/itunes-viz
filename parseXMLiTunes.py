@@ -25,11 +25,12 @@ u'Album', u'Album Artist', u'Album Rating', u'Album Rating Computed',
        u'Sort Artist', u'Sort Composer', u'Sort Name', u'Start Time',
        u'Stop Time', u'TV Shows', u'Total Time', u'Track Count', u'Track ID',
        u'Track Number', u'Track Type', u'Unplayed', u'Visible',
-       u'Volume Adjustment', u'Work', u'Year', u'iTunesU']
+       u'Volume Adjustment', u'Work', u'Year', u'iTunesU'
 '''
 
 #parses XML to return all songs
 def preproc(root):
+  podcasts = ["Another Round", "The Adventure Zone", "See Something Say Something", "My Brother, My Brother And Me", "Bad With Money With Gaby Dunn", "Friends at the Table", "2 Dope Queens", "Woodland Secrets", "Reply All", "BuzzFeed's Internet Explorer"]
   all_songs = []
   for child in root.iter('dict'):
     song_data = {}
@@ -39,7 +40,7 @@ def preproc(root):
       else:
         song_data[key] = x.text
     all_songs.append(song_data)
-  all_songs = [x for x in all_songs if x.get('Genre', None) != 'Podcast']
+  all_songs = [x for x in all_songs if x.get('Genre', None) != 'Podcast' and x.get('Album', None) not in podcasts]
   return pd.DataFrame(all_songs[2:])
 
 #filters null artists and exports to csv
@@ -49,7 +50,7 @@ def all_songs_to_csv(all_songs):
 
 def all_artists_to_csv(all_songs):
   not_nan = all_songs[pd.notnull(all_songs['Artist'])]['Artist']
-  not_nan.to_csv('artists.csv', encoding='utf-8')
+  not_nan.to_csv('artists.csv', encoding='utf-8', sep='\t')
 
 def main():
   tree = ET.parse(sys.argv[1])
