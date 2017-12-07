@@ -9,7 +9,8 @@ String[] years;
 
 void setup() {
   size(1200,600);
-  String[] csv = loadStrings("/Users/EmilyTagtow/Documents/Python/Other/itunes-viz/songs-1114.csv");
+  noLoop();
+  String[] csv = loadStrings(args[0]);
   yearcount = new FloatDict();
   for(int i=1; i<csv.length; i++) {
     float playcount = float(csv[i].split("\t")[38]);

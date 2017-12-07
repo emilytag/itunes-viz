@@ -29,7 +29,8 @@ void preProc(){
 
 void setup() {
   size(1200,600);
-  csv = loadStrings("/Users/EmilyTagtow/Documents/Python/Other/itunes-viz/songs-1114.csv");
+  noLoop();
+  csv = loadStrings(args[0]);
   yearcount = new FloatDict();
   preProc();
   max = max(yearcount.valueArray());
