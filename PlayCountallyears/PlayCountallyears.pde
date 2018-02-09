@@ -13,16 +13,10 @@ void setup() {
   String[] csv = loadStrings(args[0]);
   yearcount = new FloatDict();
   for(int i=1; i<csv.length; i++) {
-    float playcount = float(csv[i].split("\t")[38]);
-    String year = csv[i].split("\t")[79];
-    if (!yearcount.hasKey(year) && playcount > 0 && year != "1958"){
-      yearcount.set(year, playcount);
-    }
-    else{
-      if (playcount > 0 && year != "1958") {
-        float oldcount = yearcount.get(year);
-        yearcount.set(year, playcount+oldcount);
-      }
+    float playcount = float(csv[i].split("\t")[37]);
+    String year = csv[i].split("\t")[78];
+    if (playcount > 0 && year != "1958"){
+      yearcount.add(year, playcount);
     }
   }
   max = max(yearcount.valueArray());

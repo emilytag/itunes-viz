@@ -8,22 +8,18 @@ float xSpacer, ySpacer;
 String[] years;
 String[] csv;
 
+
+//reads the csv and creates a dict of year added -> count of unique album title 
 void preProc(){
   ArrayList<String> albums = new ArrayList<String>();
   for(int i=1; i<csv.length; i++) {
     String album = csv[i].split("\t")[1];
-    String year = csv[i].split("\t")[79];
+    String year = csv[i].split("\t")[78];
     String uniq = album+"~"+year;
-    if (!yearcount.hasKey(year) && year != "1958"){
-      yearcount.set(year, 1);
+    if (year != "1958" && !albums.contains(uniq)) {
+      yearcount.add(year, 1);
     }
-    else{
-      if (year != "1958" && !albums.contains(uniq)) {
-        float oldcount = yearcount.get(year);
-        yearcount.set(year, oldcount+1);
-      }
-    }
-   albums.add(uniq);
+    albums.add(uniq);
   }
 }
 
@@ -42,6 +38,7 @@ void draw() {
   beginRecord(PDF, "AlbumCountAllYears.pdf");
   fill(200);
   background(40);
+
   xSpacer = width / (years.length + 1);
   ySpacer = 100;
   
@@ -67,7 +64,7 @@ void draw() {
     text(str(int(rawVal)), xPos+(xSpacer/2), yPoint-3);
   }
   
-  //min & max values
+  //min & max values on the y-axis
   textSize(8);
   textAlign(RIGHT);
   text(int(min), xSpacer+20, height - ySpacer);
